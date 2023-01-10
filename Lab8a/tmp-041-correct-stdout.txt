@@ -1,0 +1,13 @@
+      0 : Intersection:    0    0 -     0.319102     0.061428 -    28.184210    23.364963
+     10 : PATH: [0000,0002] -> [0000,0003] - Time:    40.765056
+      1 :    Segment to    0    1       Distance     0.105361
+      2 : Intersection:    0    1 -     0.221794     0.021029 -    10.820942    10.823328
+      3 :    Segment to    0    0       Distance     0.105361
+      3 :    Segment to    0    2       Distance     0.094160
+      4 : Intersection:    0    2 -     0.161423     0.093288 -    10.155627    26.644198
+      5 :    Segment to    0    1       Distance     0.094160
+      5 :    Segment to    0    3       Distance     0.140188
+      6 : Intersection:    0    3 -     0.021389     0.099864 -    37.274903    11.762160
+      7 :    Segment to    0    2       Distance     0.140188
+      8 : PATH: [0000,0000] -> [0000,0001] - Time:    12.643312
+      9 : PATH: [0000,0001] -> [0000,0002] - Time:    23.942458

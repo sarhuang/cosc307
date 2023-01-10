@@ -1,0 +1,204 @@
+/*
+ *
+ *
+ */
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <stack>
+#include <stdlib.h>
+#include <algorithm>
+using namespace std;
+
+//Each cell of the maze is a node
+//Each cell has four links - up, down, left, right
+//Cell is on top row of maze, NO UP LINK
+//Cell is on bottom row of maze, NO DOWN LINK
+//Cell is on left column of maze, NO LEFT 
+//Cell is on right column of maze, NO RIGHT
+//Cell link is in the list of walls, NO LINK
+
+
+class Node{
+	public:
+		//int visited;
+		vector <int> edges;
+};
+
+
+
+class Graph{
+	public:
+		vector <Node *> nodes;
+		stack <int> visited;
+		void Component_Count(int index);
+		void Print() const;
+};
+
+//DFS
+void Graph::Component_Count(int index){
+	Node *n;
+	size_t i;
+	vector <int>::iterator it;
+	int current;
+
+	//Put on stack - we are visiting the current cell
+	visited.push(index);
+
+	//We have reached the end of the maze!
+	if(index == nodes.size()-1){
+		 return;
+	}
+
+
+	//Look if we can go further on this current path
+	n = nodes[index];
+	for(i = 0; i < n->edges.size(); i++){
+		//Check to see if it's a dead end
+
+		if(visited.size() > 1){
+			current = visited.top();
+			visited.pop();
+			if(visited.top() != n->edges[i]){
+				visited.push(current);
+				Component_Count(n->edges[i]);
+			}
+		}
+		else
+			Component_Count(n->edges[i]);
+	}
+
+	if(visited.top() == n->edges[0]) return;
+}
+
+void Graph::Print() const{
+	vector <int> path;
+	
+	while(!visited.empty()){
+		path.push_back(visited.top());
+		visited.pop();
+	}	
+
+	for(int i = path.size()-1; i >= 0; i--){
+		cout << "PATH " << i << endl;
+	}
+}
+
+
+
+
+
+int main(){
+	Graph g;
+	string s;
+	size_t row, col, c;
+	int n1, n2;
+	size_t i;
+	Node *n;
+	
+	
+	int count = 0;
+		
+	cin >> s;
+	if(s != "ROWS") { cerr << "Bad graph\n"; exit(1); }
+	cin >> row;
+	cin >> s;
+	if(s != "COLS") { cerr << "Bad graph\n"; exit(1); }
+    cin >> col;
+	cout << "ROWS " << row << " COLS " << col << endl;
+
+
+
+	//Create all nodes
+	for(i = 0; i < row * col; i++){
+		n = new Node;
+		g.nodes.push_back(n);
+	}
+
+	//Connect all nodes together
+	for(i = 0; i < g.nodes.size(); i++){
+	//	cout << endl;
+
+		/*//Left
+		if((i-1) >= 0 && i%col != 0){
+			g.nodes[i]->edges.push_back(i-1);
+		//	cout << "Node " << i << " connects LEFT with " << i-1 << endl;
+		}
+		//Right
+		if((i+1) % col != 0){
+			g.nodes[i]->edges.push_back(i+1);
+		//	cout << "Node " << i << " connects RIGHT with " << i+1 << endl;
+		}
+		
+		//Up
+		if(int(i-col) >= 0){
+			g.nodes[i]->edges.push_back(i-col);
+		//	cout << "Node " << i << " connects UP with " << i-col << endl;
+		}
+
+		//Down
+		if(i+col < g.nodes.size()){
+			g.nodes[i]->edges.push_back(i+col);
+		//	cout << "Node " << i << " connects DOWN with " << i+col << endl;
+		}
+		//cout << endl;*/
+		
+
+		//Right
+		if((i+1) % col != 0)
+			g.nodes[i]->edges.push_back(i+1);
+	
+		//Down
+		if(i+col < g.nodes.size())
+			g.nodes[i]->edges.push_back(i+col);
+
+		//Up
+		if(int(i-col) >= 0)
+			g.nodes[i]->edges.push_back(i-col);
+
+		//Left
+		if((i-1) >= 0 && i%col != 0)
+			g.nodes[i]->edges.push_back(i-1);
+	}
+
+
+	
+	//Create walls
+	while(!cin.fail()){
+		cin >> s >> n1 >> n2;
+		if(!cin.fail()){
+			if (s != "WALL") { cerr << "Bad graph\n"; exit(1); }
+			
+			cout << s << " " << n1 << " " << n2 << endl;
+
+			vector <int>::iterator vit;
+			int index1, index2;
+			
+			vit = find(g.nodes[n1]->edges.begin(), g.nodes[n1]->edges.end(), n2);
+			if(vit != g.nodes[n1]->edges.end())
+				g.nodes[n1]->edges.erase(vit);
+
+			vit = find(g.nodes[n2]->edges.begin(), g.nodes[n2]->edges.end(), n1);
+			if(vit != g.nodes[n2]->edges.end())
+				g.nodes[n2]->edges.erase(vit);
+			
+		}
+	}
+
+	
+	//DFS
+	//c = 0;
+	//for(i = 0; i < g.nodes.size(); i++){
+	//	if(g.nodes[i]->component == -1){
+	//		c++;
+			g.Component_Count(0);
+	//	}
+	//}
+
+
+	g.Print();
+
+	return 0;
+}
+
