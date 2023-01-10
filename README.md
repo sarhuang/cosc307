@@ -13,4 +13,6 @@ Labs for COSC 307: Honors Data Structures &amp; Algorithms II at UTK
 - Lab 5 - Superball game AI
 - Lab 6 - Merge sort and quick sort
 - Lab 7 (maze_solve) - Create a graph of the maze given the number of rows, columns, and walls. Solve using depth first search
-- Lab 8 - Graphs
+- Lab 8 - Create a graph of intersections and use Dijkstra's algorithm to find the shortest path from light[0, 0] to light[max_street, max_avenue].
+- Lab 9 (worddice.cpp) - Use network flow to figure out which given dice to use to spell specific words.
+- Lab A (dond.cpp) - A contestent will be given a s-sided die numbered from 0 to s-1, and a certain number of times that they must roll that die. Call that number t. On each roll after the first, if the contestant rolls a number that equals the previous number that they rolled, or is one away from the number that they previously rolled, they lose. 
